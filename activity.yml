@@ -1,0 +1,19 @@
+server:
+  port: 9911
+  
+spring:
+  cloud:
+    consul:
+      discovery:
+        instanceId: activity
+        health-check-interval: 5s
+      config:
+        management: 
+          enabled: true
+    stream:
+          bindings:
+             sink-in-0:
+                destination: cloudEX
+management:
+  security: 
+    enabled: false

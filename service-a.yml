@@ -1,0 +1,20 @@
+server:
+  port: 8001
+  
+spring:
+  cloud:
+    consul:
+      discovery:
+        instanceId: ServiceA
+        health-check-interval: 5s
+      config:
+        management: 
+          enabled: true
+    stream:
+      bindings:
+        output:
+          binder: kafka
+          destination: cloudEX
+management:
+  security: 
+    enabled: false

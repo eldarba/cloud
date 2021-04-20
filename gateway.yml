@@ -1,0 +1,48 @@
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+      - id: serviceA
+        uri: lb://service-A
+        predicates:
+        - Path=/srva/**
+        filters:
+        - RewritePath=/srva/(?<segment>.*), /$\{segment}
+        - name: Hystrix
+          args:
+            name: monitor-srvA
+            fallbackUri: forward:/fallback/serviceA
+      - id: ServiceB
+        uri: lb://service-B
+        predicates:
+        - Path=/srvb/**
+        filters:
+        - RewritePath=/srvb/(?<segment>.*), /$\{segment}
+        - name: Hystrix
+          args:
+            name: monitor-srvB
+            fallbackUri: forward:/fallback/serviceB  
+      - id: MQActivityService
+        uri: lb://activity
+        predicates:
+        - Path=/act/**
+        filters:
+        - RewritePath=/act/(?<segment>.*), /$\{segment} 
+    consul:
+      discovery:
+        instanceId: Gateway
+        health-check-interval: 5s
+      config:
+        management: 
+          enabled: true
+management:
+  security: 
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream, info, health
+     

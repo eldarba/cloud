@@ -1,0 +1,15 @@
+server:
+  port: 8811
+  
+spring:
+  cloud:
+    consul:
+      discovery:
+        instanceId: dashboard
+        health-check-interval: 5s
+      config:
+        management: 
+          enabled: true
+management:
+  security: 
+    enabled: false
