@@ -5,6 +5,7 @@ spring:
   cloud:
     consul:
       discovery:
+        hostname: aaa
         instanceId: ${spring.application.name}:${random.value}
         health-check-interval: 5s
       config:
